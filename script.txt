@@ -1,0 +1,204 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
+-- --------------------------------------------------
+-- Date Created: 11/02/2012 10:03:05
+-- Generated from EDMX file: D:\Site Soft-School\SoftSchool\MvcApplication1\Models\Model1.edmx
+-- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [SoftSchool];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'LyceesSet'
+CREATE TABLE [dbo].[LyceesSet] (
+    [LyceeID] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL,
+    [VilleID] int  NOT NULL,
+    [GovernoratID] int  NOT NULL,
+    [Directeur] nvarchar(max)  NOT NULL,
+    [Adress] nvarchar(max)  NOT NULL,
+    [CodeLycee] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'VillesSet'
+CREATE TABLE [dbo].[VillesSet] (
+    [VilleID] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'GovernoratSet'
+CREATE TABLE [dbo].[GovernoratSet] (
+    [GovernoratID] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'LogicielsSet'
+CREATE TABLE [dbo].[LogicielsSet] (
+    [LogicielID] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL,
+    [Version] nvarchar(max)  NOT NULL,
+    [Image] nvarchar(max)  NOT NULL,
+    [Descreption] nvarchar(max)  NOT NULL,
+    [Prix] nvarchar(max)  NOT NULL,
+    [Lien] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'UtilisateursSet'
+CREATE TABLE [dbo].[UtilisateursSet] (
+    [UtilisateurId] int IDENTITY(1,1) NOT NULL,
+    [Nom] nvarchar(max)  NOT NULL,
+    [Prenom] nvarchar(max)  NOT NULL,
+    [Login] nvarchar(max)  NOT NULL,
+    [Password] nvarchar(max)  NOT NULL,
+    [LyceeID] int  NOT NULL
+);
+GO
+
+-- Creating table 'HistoriqueSet'
+CREATE TABLE [dbo].[HistoriqueSet] (
+    [HistoriqueId] int IDENTITY(1,1) NOT NULL,
+    [Date] nvarchar(max)  NOT NULL,
+    [LogicielID] int  NOT NULL,
+    [UtilisateurID] int  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [LyceeID] in table 'LyceesSet'
+ALTER TABLE [dbo].[LyceesSet]
+ADD CONSTRAINT [PK_LyceesSet]
+    PRIMARY KEY CLUSTERED ([LyceeID] ASC);
+GO
+
+-- Creating primary key on [VilleID] in table 'VillesSet'
+ALTER TABLE [dbo].[VillesSet]
+ADD CONSTRAINT [PK_VillesSet]
+    PRIMARY KEY CLUSTERED ([VilleID] ASC);
+GO
+
+-- Creating primary key on [GovernoratID] in table 'GovernoratSet'
+ALTER TABLE [dbo].[GovernoratSet]
+ADD CONSTRAINT [PK_GovernoratSet]
+    PRIMARY KEY CLUSTERED ([GovernoratID] ASC);
+GO
+
+-- Creating primary key on [LogicielID] in table 'LogicielsSet'
+ALTER TABLE [dbo].[LogicielsSet]
+ADD CONSTRAINT [PK_LogicielsSet]
+    PRIMARY KEY CLUSTERED ([LogicielID] ASC);
+GO
+
+-- Creating primary key on [UtilisateurId] in table 'UtilisateursSet'
+ALTER TABLE [dbo].[UtilisateursSet]
+ADD CONSTRAINT [PK_UtilisateursSet]
+    PRIMARY KEY CLUSTERED ([UtilisateurId] ASC);
+GO
+
+-- Creating primary key on [HistoriqueId] in table 'HistoriqueSet'
+ALTER TABLE [dbo].[HistoriqueSet]
+ADD CONSTRAINT [PK_HistoriqueSet]
+    PRIMARY KEY CLUSTERED ([HistoriqueId] ASC);
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [GovernoratID] in table 'LyceesSet'
+ALTER TABLE [dbo].[LyceesSet]
+ADD CONSTRAINT [FK_GovernoratLycees]
+    FOREIGN KEY ([GovernoratID])
+    REFERENCES [dbo].[GovernoratSet]
+        ([GovernoratID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GovernoratLycees'
+CREATE INDEX [IX_FK_GovernoratLycees]
+ON [dbo].[LyceesSet]
+    ([GovernoratID]);
+GO
+
+-- Creating foreign key on [UtilisateurID] in table 'HistoriqueSet'
+ALTER TABLE [dbo].[HistoriqueSet]
+ADD CONSTRAINT [FK_UtilisateursHistorique]
+    FOREIGN KEY ([UtilisateurID])
+    REFERENCES [dbo].[UtilisateursSet]
+        ([UtilisateurId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UtilisateursHistorique'
+CREATE INDEX [IX_FK_UtilisateursHistorique]
+ON [dbo].[HistoriqueSet]
+    ([UtilisateurID]);
+GO
+
+-- Creating foreign key on [LogicielID] in table 'HistoriqueSet'
+ALTER TABLE [dbo].[HistoriqueSet]
+ADD CONSTRAINT [FK_LogicielsHistorique]
+    FOREIGN KEY ([LogicielID])
+    REFERENCES [dbo].[LogicielsSet]
+        ([LogicielID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LogicielsHistorique'
+CREATE INDEX [IX_FK_LogicielsHistorique]
+ON [dbo].[HistoriqueSet]
+    ([LogicielID]);
+GO
+
+-- Creating foreign key on [VilleID] in table 'LyceesSet'
+ALTER TABLE [dbo].[LyceesSet]
+ADD CONSTRAINT [FK_VillesLycees]
+    FOREIGN KEY ([VilleID])
+    REFERENCES [dbo].[VillesSet]
+        ([VilleID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VillesLycees'
+CREATE INDEX [IX_FK_VillesLycees]
+ON [dbo].[LyceesSet]
+    ([VilleID]);
+GO
+
+-- Creating foreign key on [LyceeID] in table 'UtilisateursSet'
+ALTER TABLE [dbo].[UtilisateursSet]
+ADD CONSTRAINT [FK_LyceesUtilisateurs]
+    FOREIGN KEY ([LyceeID])
+    REFERENCES [dbo].[LyceesSet]
+        ([LyceeID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LyceesUtilisateurs'
+CREATE INDEX [IX_FK_LyceesUtilisateurs]
+ON [dbo].[UtilisateursSet]
+    ([LyceeID]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------
